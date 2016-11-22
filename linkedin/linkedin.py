@@ -94,7 +94,7 @@ class LinkedInAuthentication(object):
         qd = {'response_type': 'code',
               'client_id': self.key,
               'scope': (' '.join(self.permissions)).strip(),
-              'state': self.state or self._make_new_state(),
+              'state': self.state,
               'redirect_uri': self.redirect_uri}
         # urlencode uses quote_plus when encoding the query string so,
         # we ought to be encoding the qs by on our own.
@@ -541,3 +541,15 @@ class LinkedInApplication(object):
         response = self.make_request('PUT', url, data=json.dumps(is_liked))
         raise_for_error(response)
         return True
+
+    def get_company_historical_status_update_statistics(self, company_id, params=None, headers=None):
+        url = '%s/%s/historical-status-update-statistics' % (ENDPOINTS.COMPANIES, str(company_id))
+        response = self.make_request('GET', url, params=params, headers=headers)
+        raise_for_error(response)
+        return response.json()
+
+    def get_company_historical_follow_statistics(self, company_id, params=None, headers=None):
+        url = '%s/%s/historical-follow-statistics' % (ENDPOINTS.COMPANIES, str(company_id))
+        response = self.make_request('GET', url, params=params, headers=headers)
+        raise_for_error(response)
+        return response.json()
