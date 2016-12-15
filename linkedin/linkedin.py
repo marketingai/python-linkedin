@@ -186,6 +186,7 @@ class LinkedInApplication(object):
         if selectors:
             url = '%s:(%s)' % (url, LinkedInSelector.parse(selectors))
 
+        params.update({'format': 'json'})
         response = self.make_request('GET', url, params=params, headers=headers)
         raise_for_error(response)
         return response.json()
